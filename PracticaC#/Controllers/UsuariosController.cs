@@ -29,7 +29,10 @@ namespace PracticaC_.Controllers
             if(ModelState.IsValid)
             {
                 var User = usuarios.Usuario;
-                var consulta = _context.Usuarios.Where(b => b.Usuario == User).FirstOrDefault(); 
+                var Password = usuarios.Pasword;
+
+                var consulta = _context.Usuarios.Where(b => b.Usuario == User && b.Pasword == Password).FirstOrDefault(); 
+
                 if ( consulta != null)
                 {
                     return RedirectToAction("Index", "LineasCelulars");
