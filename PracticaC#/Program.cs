@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PracticaC_.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,14 @@ builder.Services.AddDbContext<AppDBContext>(opciones =>
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.LoginPath = "/Usuarios/Login";
+        option.ExpireTimeSpan = TimeSpan.FromMinutes(20);
+        option.AccessDeniedPath = "/Home/Privacy";
+    });
 
 var app = builder.Build();
 
@@ -24,6 +33,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

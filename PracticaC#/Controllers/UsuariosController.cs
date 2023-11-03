@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PracticaC_.Models;
 
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+
 namespace PracticaC_.Controllers
 {
     public class UsuariosController : Controller
@@ -23,6 +28,12 @@ namespace PracticaC_.Controllers
             return View();
         }
 
+        public async Task<IActionResult> Salir()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Usuarios");
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(Usuarios usuarios)
         {
@@ -35,6 +46,14 @@ namespace PracticaC_.Controllers
 
                 if ( consulta != null)
                 {
+                    var claims = new List<Claim> { 
+
+                        new Claim(ClaimTypes.Name, consulta.Usuario)             
+                    };
+
+                    var claimsIndentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIndentity));
+
                     return RedirectToAction("Index", "LineasCelulars");
                 }
   
@@ -42,7 +61,7 @@ namespace PracticaC_.Controllers
             return View();
         }
 
-
+        [Authorize]
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
@@ -51,6 +70,7 @@ namespace PracticaC_.Controllers
                           Problem("Entity set 'AppDBContext.Usuarios'  is null.");
         }
 
+        [Authorize]
         // GET: Usuarios/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -69,12 +89,14 @@ namespace PracticaC_.Controllers
             return View(usuarios);
         }
 
+        [Authorize]
         // GET: Usuarios/Create
         public IActionResult Create()
         {
             return View();
         }
 
+        [Authorize]
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -91,6 +113,7 @@ namespace PracticaC_.Controllers
             return View(usuarios);
         }
 
+        [Authorize]
         // GET: Usuarios/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -107,6 +130,7 @@ namespace PracticaC_.Controllers
             return View(usuarios);
         }
 
+        [Authorize]
         // POST: Usuarios/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -142,6 +166,7 @@ namespace PracticaC_.Controllers
             return View(usuarios);
         }
 
+        [Authorize]
         // GET: Usuarios/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -160,6 +185,7 @@ namespace PracticaC_.Controllers
             return View(usuarios);
         }
 
+        [Authorize]
         // POST: Usuarios/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

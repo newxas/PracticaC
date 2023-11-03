@@ -7,8 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PracticaC_.Models;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace PracticaC_.Controllers
 {
+    [Authorize]
     public class LineasCelularsController : Controller
     {
         private readonly AppDBContext _context;
