@@ -18,6 +18,28 @@ namespace PracticaC_.Controllers
             _context = context;
         }
 
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(Usuarios usuarios)
+        {
+            if(ModelState.IsValid)
+            {
+                var User = usuarios.Usuario;
+                var consulta = _context.Usuarios.Where(b => b.Usuario == User).FirstOrDefault(); 
+                if ( consulta != null)
+                {
+                    return RedirectToAction("Index", "LineasCelulars");
+                }
+  
+            }
+            return View();
+        }
+
+
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
