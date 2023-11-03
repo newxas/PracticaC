@@ -19,11 +19,14 @@ namespace PracticaC_.Controllers
         }
 
         // GET: DetalleLlamadas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index( Int64? ids)
         {
-              return _context.DetalleLlamadas != null ? 
-                          View(await _context.DetalleLlamadas.ToListAsync()) :
-                          Problem("Entity set 'AppDBContext.DetalleLlamadas'  is null.");
+            return _context.DetalleLlamadas != null ?
+                        View(await _context.DetalleLlamadas.Where(x => x.MobileLine == ids).ToListAsync()) :
+                        Problem("Entity set 'AppDBContext.DetalleLlamadas'  is null.");
+            //return _context.DetalleLlamadas != null ? 
+            //            View(await _context.DetalleLlamadas.ToListAsync()) :
+            //            Problem("Entity set 'AppDBContext.DetalleLlamadas'  is null.");
         }
 
         // GET: DetalleLlamadas/Details/5

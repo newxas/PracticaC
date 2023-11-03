@@ -26,22 +26,36 @@ namespace PracticaC_.Controllers
                           Problem("Entity set 'AppDBContext.LineasCelulars'  is null.");
         }
 
-        // GET: LineasCelulars/Details/5
-        public async Task<IActionResult> Details(int? id)
+        //// GET: LineasCelulars/Details/5
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null || _context.LineasCelular == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var lineasCelular = await _context.LineasCelular
+        //        .FirstOrDefaultAsync(m => m.MobileLineId == id);
+        //    if (lineasCelular == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(lineasCelular);
+        //}
+
+        public async Task<IActionResult> Details(Int64? id)
         {
-            if (id == null || _context.LineasCelular == null)
+            if (id != null)
             {
-                return NotFound();
+                return RedirectToAction("Index", "DetalleLlamadas", new { ids = id });
+            }
+            else
+            {
+                return View();
             }
 
-            var lineasCelular = await _context.LineasCelular
-                .FirstOrDefaultAsync(m => m.MobileLineId == id);
-            if (lineasCelular == null)
-            {
-                return NotFound();
-            }
-
-            return View(lineasCelular);
+            //return View();
         }
 
         // GET: LineasCelulars/Create
@@ -66,93 +80,93 @@ namespace PracticaC_.Controllers
             return View(lineasCelular);
         }
 
-        // GET: LineasCelulars/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.LineasCelular == null)
-            {
-                return NotFound();
-            }
+        //// GET: LineasCelulars/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null || _context.LineasCelular == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var lineasCelular = await _context.LineasCelular.FindAsync(id);
-            if (lineasCelular == null)
-            {
-                return NotFound();
-            }
-            return View(lineasCelular);
-        }
+        //    var lineasCelular = await _context.LineasCelular.FindAsync(id);
+        //    if (lineasCelular == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(lineasCelular);
+        //}
 
-        // POST: LineasCelulars/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MobileLineId,MobileLine,Description")] LineasCelular lineasCelular)
-        {
-            if (id != lineasCelular.MobileLineId)
-            {
-                return NotFound();
-            }
+        //// POST: LineasCelulars/Edit/5
+        //// To protect from overposting attacks, enable the specific properties you want to bind to.
+        //// For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("MobileLineId,MobileLine,Description")] LineasCelular lineasCelular)
+        //{
+        //    if (id != lineasCelular.MobileLineId)
+        //    {
+        //        return NotFound();
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(lineasCelular);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LineasCelularExists(lineasCelular.MobileLineId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(lineasCelular);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(lineasCelular);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!LineasCelularExists(lineasCelular.MobileLineId))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(lineasCelular);
+        //}
 
-        // GET: LineasCelulars/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.LineasCelular == null)
-            {
-                return NotFound();
-            }
+        //// GET: LineasCelulars/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null || _context.LineasCelular == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var lineasCelular = await _context.LineasCelular
-                .FirstOrDefaultAsync(m => m.MobileLineId == id);
-            if (lineasCelular == null)
-            {
-                return NotFound();
-            }
+        //    var lineasCelular = await _context.LineasCelular
+        //        .FirstOrDefaultAsync(m => m.MobileLineId == id);
+        //    if (lineasCelular == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(lineasCelular);
-        }
+        //    return View(lineasCelular);
+        //}
 
-        // POST: LineasCelulars/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.LineasCelular == null)
-            {
-                return Problem("Entity set 'AppDBContext.LineasCelulars'  is null.");
-            }
-            var lineasCelular = await _context.LineasCelular.FindAsync(id);
-            if (lineasCelular != null)
-            {
-                _context.LineasCelular.Remove(lineasCelular);
-            }
+        //// POST: LineasCelulars/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    if (_context.LineasCelular == null)
+        //    {
+        //        return Problem("Entity set 'AppDBContext.LineasCelulars'  is null.");
+        //    }
+        //    var lineasCelular = await _context.LineasCelular.FindAsync(id);
+        //    if (lineasCelular != null)
+        //    {
+        //        _context.LineasCelular.Remove(lineasCelular);
+        //    }
             
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool LineasCelularExists(int id)
         {
